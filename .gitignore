@@ -1,0 +1,6 @@
+# .gitignore
+.vscode/
+backup_original_ui/
+temp.html
+test_admin.php
+*.log

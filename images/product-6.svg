@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="360" viewBox="0 0 520 360" role="img" aria-label="Sable luxury curtains">
+  <rect width="520" height="360" rx="24" fill="#e7d5bf" />
+  <rect x="60" y="30" width="170" height="300" rx="18" fill="#6a4a33" />
+  <rect x="290" y="30" width="170" height="300" rx="18" fill="#503726" />
+  <path d="M60 70h170v40c-56 26-112 26-170 0z" fill="#c9a36a" />
+  <path d="M290 70h170v40c-56 26-112 26-170 0z" fill="#c9a36a" />
+</svg>

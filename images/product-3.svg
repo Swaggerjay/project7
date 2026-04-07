@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="360" viewBox="0 0 520 360" role="img" aria-label="Champagne velvet curtains">
+  <rect width="520" height="360" rx="24" fill="#f1e1cf" />
+  <rect x="60" y="30" width="170" height="300" rx="18" fill="#c89b6b" />
+  <rect x="290" y="30" width="170" height="300" rx="18" fill="#b08252" />
+  <circle cx="260" cy="180" r="70" fill="#fff" opacity="0.35" />
+</svg>

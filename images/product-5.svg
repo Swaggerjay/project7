@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="360" viewBox="0 0 520 360" role="img" aria-label="Pearl white sheers">
+  <rect width="520" height="360" rx="24" fill="#faf4ea" />
+  <rect x="70" y="30" width="140" height="300" rx="16" fill="#f3eadb" />
+  <rect x="220" y="30" width="140" height="300" rx="16" fill="#f8f1e8" />
+  <rect x="370" y="30" width="80" height="300" rx="16" fill="#efe2d2" />
+  <circle cx="400" cy="90" r="36" fill="#fff" opacity="0.7" />
+</svg>

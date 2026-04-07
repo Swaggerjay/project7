@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" role="img" aria-label="Elegant curtain illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f3eadb" />
+      <stop offset="100%" stop-color="#e2d2bd" />
+    </linearGradient>
+    <linearGradient id="curtain" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#c8a070" />
+      <stop offset="100%" stop-color="#7f5c3b" />
+    </linearGradient>
+  </defs>
+  <rect width="900" height="620" rx="40" fill="url(#bg)" />
+  <rect x="120" y="70" width="260" height="480" rx="22" fill="url(#curtain)" />
+  <rect x="520" y="70" width="260" height="480" rx="22" fill="url(#curtain)" />
+  <rect x="405" y="70" width="90" height="480" rx="20" fill="#f7f1e6" />
+  <path d="M120 70h260v80c-86 40-172 40-260 0z" fill="#b68a5a" opacity="0.8" />
+  <path d="M520 70h260v80c-86 40-172 40-260 0z" fill="#b68a5a" opacity="0.8" />
+  <circle cx="450" cy="310" r="90" fill="#f9f4ec" opacity="0.7" />
+</svg>

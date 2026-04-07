@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="360" viewBox="0 0 520 360" role="img" aria-label="Mocha blackout curtains">
+  <rect width="520" height="360" rx="24" fill="#e4d4c2" />
+  <rect x="70" y="30" width="150" height="300" rx="16" fill="#5d4032" />
+  <rect x="300" y="30" width="150" height="300" rx="16" fill="#4a3327" />
+  <rect x="245" y="30" width="40" height="300" rx="10" fill="#f7f1e6" />
+</svg>
