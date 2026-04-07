@@ -20,7 +20,19 @@ const siteNav = document.querySelector('.site-nav');
 if (navToggle && siteNav) {
   navToggle.addEventListener('click', () => {
     const isOpen = siteNav.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    document.body.classList.toggle('no-scroll', isOpen);
     navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  // Close menu when clicking a link
+  const navLinks = siteNav.querySelectorAll('a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      siteNav.classList.remove('open');
+      navToggle.classList.remove('open');
+      document.body.classList.remove('no-scroll');
+    });
   });
 }
 
