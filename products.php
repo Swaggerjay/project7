@@ -39,19 +39,18 @@ $cartCount = cart_count();
     <div class="container grid cards-3">
       <?php foreach ($products as $product): ?>
         <div class="product-card">
-          <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="">
-          <h3><?php echo htmlspecialchars($product['name']); ?></h3>
+          <a href="product_details.php?id=<?php echo $product['id']; ?>" class="product-card-link">
+            <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="">
+            <h3><?php echo htmlspecialchars($product['name']); ?></h3>
+          </a>
           <p class="product-price">₹<?php echo number_format($product['price']); ?></p>
           <div class="product-actions">
             <form action="add_to_cart.php" method="post">
               <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
               <input type="hidden" name="qty" value="1" />
-              <button class="btn ghost" type="submit">Add to Cart</button>
+              <button class="btn ghost" type="submit" style="width: 100%;">Add to Cart</button>
             </form>
-            <form action="buy_now.php" method="post">
-              <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>" />
-              <button class="btn primary" type="submit">Buy Now</button>
-            </form>
+            <a href="product_details.php?id=<?php echo $product['id']; ?>" class="btn primary" style="text-align: center; font-size: 0.85rem; padding: 12px 5px;">View Details</a>
           </div>
         </div>
       <?php endforeach; ?>

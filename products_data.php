@@ -18,9 +18,9 @@ function products_all(): array
     ];
 
     try {
-        $stmt = db()->prepare('SELECT product_id, name, price, image_path FROM products ORDER BY product_id ASC');
+        $stmt = db()->prepare('SELECT product_id, name, price, image_path, category, description, specifications FROM products ORDER BY product_id ASC');
         $stmt->execute();
-        $stmt->bind_result($id, $name, $price, $imagePath);
+        $stmt->bind_result($id, $name, $price, $imagePath, $category, $description, $specifications);
         $products = [];
         while ($stmt->fetch()) {
             $products[(int) $id] = [
@@ -28,6 +28,9 @@ function products_all(): array
                 'name' => $name,
                 'price' => (float) $price,
                 'image' => $imagePath,
+                'category' => $category,
+                'description' => $description,
+                'specifications' => json_decode($specifications, true) ?: [],
             ];
         }
         $stmt->close();
