@@ -53,10 +53,10 @@ require_once __DIR__ . '/session_bootstrap.php';
   <main>
 
     <section class="page-hero">
-      <div class="container">
-        <p class="eyebrow">Our Story</p>
-        <h1>Crafting Curtain Experiences Since 2008</h1>
-        <p>We combine design guidance, premium fabrics, and meticulous tailoring to deliver curtains that feel luxurious and last for years.</p>
+      <div class="container reveal-fade">
+        <p class="eyebrow reveal-up" style="--delay: 0.1s">Our Story</p>
+        <h1 class="reveal-up" style="--delay: 0.3s">Crafting Curtain Experiences Since 2008</h1>
+        <p class="reveal-up" style="--delay: 0.5s">We combine design guidance, premium fabrics, and meticulous tailoring to deliver curtains that feel luxurious and last for years.</p>
       </div>
     </section>
 

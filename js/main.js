@@ -1,11 +1,18 @@
-// Loading overlay
+// Loading overlay & Entrance Sequence
 const loader = document.getElementById('page-loader');
 if (loader) {
   window.addEventListener('load', () => {
     loader.classList.add('hidden');
-    setTimeout(() => loader.remove(), 600);
+    
+    // Trigger hero entrance after loader is gone
+    setTimeout(() => {
+      const heroContent = document.querySelector('.hero-content');
+      if (heroContent) heroContent.style.opacity = '1';
+      loader.remove();
+    }, 600);
   });
 }
+
 
 // Mobile navigation toggle
 const navToggle = document.querySelector('.nav-toggle');
@@ -139,24 +146,39 @@ if (flashType && flashCode && flashMessages[flashType]) {
   }
 }
 
-
-// --- Scroll Reveal Animations ---
+// --- Enhanced Scroll Reveal System ---
 document.addEventListener('DOMContentLoaded', () => {
-    const revealTargets = document.querySelectorAll('.card, .product-card, .section-header, .about-panel, .hero-grid > div, .form-card, .cart-table, .checkout-grid > div, .mini-card');
-    
-    // Auto-inject .reveal class
-    revealTargets.forEach(el => el.classList.add('reveal'));
-    
+    // 1. Identify grid containers to apply automatic staggered delays
+    const containers = document.querySelectorAll('.grid, .cards-3, .cards-2, .hero-badges, .why-grid, .footer-grid');
+    containers.forEach(container => {
+        const children = container.children;
+        Array.from(children).forEach((child, index) => {
+            child.classList.add('reveal');
+            // Apply a staggered delay using CSS variables
+            child.style.setProperty('--delay', `${(index % 4) * 0.15}s`);
+        });
+    });
+
+    // 2. Identify standalone reveal targets
+    const standaloneTargets = document.querySelectorAll('.section-header, .about-panel, .form-card, .cta-inner, .map-frame');
+    standaloneTargets.forEach(el => el.classList.add('reveal'));
+
+    // 3. Initialize IntersectionObserver
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                revealObserver.unobserve(entry.target);
+                // We keep observing if we want it to animate every time, 
+                // but usually "once" feels more premium for content.
+                revealObserver.unobserve(entry.target); 
             }
         });
-    }, { threshold: 0.1 });
-    
-    // Add existing hardcoded .reveal if any, plus auto-injected ones
+    }, { 
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px' // Trigger slightly before it hits the viewport
+    });
+
+    // 4. Observe all reveal elements
     document.querySelectorAll('.reveal').forEach(el => {
         revealObserver.observe(el);
     });

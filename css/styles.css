@@ -12,7 +12,10 @@
   --white: #ffffff;
   --shadow: 0 20px 40px rgba(52, 40, 28, 0.18);
   --radius: 18px;
-  --transition: 0.3s ease;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --shimmer: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
 }
 
 * {
@@ -97,7 +100,25 @@ button {
   background-size: 200% auto;
   color: var(--white);
   box-shadow: 0 12px 24px rgba(163, 116, 62, 0.3);
-  transition: all 0.4s ease;
+  transition: all 0.5s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn.primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: var(--shimmer);
+  transform: skewX(-25deg);
+  transition: 0.7s;
+}
+
+.btn.primary:hover::before {
+  left: 150%;
 }
 
 .btn.primary:hover {
@@ -845,13 +866,62 @@ button {
   }
 }
 
-/* Scroll Reveal Animations */
+/* Scroll Reveal System */
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(40px);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+  will-change: transform, opacity;
 }
+
+.reveal-fade {
+  transform: none;
+}
+
+.reveal-left {
+  transform: translateX(-40px);
+}
+
+.reveal-right {
+  transform: translateX(40px);
+}
+
+.reveal-scale {
+  transform: scale(0.9);
+}
+
 .reveal.active {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(0) scale(1);
+  transition-delay: var(--delay, 0s);
+}
+
+/* Micro-animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-150%); }
+  100% { transform: translateX(150%); }
+}
+
+.floating {
+  animation: float 4s infinite ease-in-out;
+}
+
+.hero-content {
+  animation: fadeInUp 1s var(--ease-out);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
