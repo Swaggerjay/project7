@@ -32,5 +32,11 @@ $_SESSION['cart']['items'][$productId] = ($_SESSION['cart']['items'][$productId]
 require_once __DIR__ . '/cart_helpers.php';
 cart_sync_to_db();
 
-header('Location: products.php?added=1');
+// Redirect back to where the user came from, or products.php by default
+$redirect = $_POST['redirect'] ?? $_SERVER['HTTP_REFERER'] ?? 'products.php';
+if (strpos($redirect, 'added=1') === false) {
+    $redirect .= (strpos($redirect, '?') === false ? '?' : '&') . 'added=1';
+}
+
+header("Location: $redirect");
 exit;

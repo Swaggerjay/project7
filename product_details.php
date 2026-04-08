@@ -33,6 +33,14 @@ $specs = $product['specifications'] ?? [];
   <?php require __DIR__ . '/includes/header.php'; ?>
 
   <main class="container detail-container">
+
+    <?php if ((int)($_GET['added'] ?? 0) === 1): ?>
+    <div class="reveal-up" style="margin-bottom: 25px;">
+        <div class="form-success form-message" style="display: block; text-align: center; font-weight: 500;">
+            Item added to your cart! <a href="cart.php" style="text-decoration: underline; color: var(--brown); font-weight: 700;">View Cart</a>
+        </div>
+    </div>
+    <?php endif; ?>
     
     <!-- BREADCRUMBS -->
     <nav class="breadcrumbs reveal-up">
@@ -56,8 +64,15 @@ $specs = $product['specifications'] ?? [];
                 <div class="thumb glass"><img src="images/real-2.jpg" onclick="document.getElementById('main-image').src=this.src"></div>
             </div>
             <div class="action-buttons desktop-only">
-                <a href="cart_action.php?id=<?php echo $product['id']; ?>" class="btn ghost large">ADD TO CART</a>
-                <a href="buy_now.php?id=<?php echo $product['id']; ?>" class="btn primary large">BUY NOW</a>
+                <form action="add_to_cart.php" method="post" style="flex: 1;">
+                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                    <input type="hidden" name="qty" value="1">
+                    <button type="submit" class="btn ghost large" style="width: 100%;">ADD TO CART</button>
+                </form>
+                <form action="buy_now.php" method="post" style="flex: 1;">
+                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                    <button type="submit" class="btn primary large" style="width: 100%;">BUY NOW</button>
+                </form>
             </div>
         </div>
 
@@ -98,8 +113,15 @@ $specs = $product['specifications'] ?? [];
 
             <!-- MOBILE ACTIONS -->
             <div class="action-buttons mobile-only">
-                <a href="cart_action.php?id=<?php echo $product['id']; ?>" class="btn ghost">CART</a>
-                <a href="buy_now.php?id=<?php echo $product['id']; ?>" class="btn primary">BUY NOW</a>
+                <form action="add_to_cart.php" method="post" style="flex: 1;">
+                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                    <input type="hidden" name="qty" value="1">
+                    <button type="submit" class="btn ghost" style="width: 100%;">CART</button>
+                </form>
+                <form action="buy_now.php" method="post" style="flex: 1;">
+                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                    <button type="submit" class="btn primary" style="width: 100%;">BUY NOW</button>
+                </form>
             </div>
 
             <!-- SPECS TABLE -->
@@ -135,8 +157,15 @@ $specs = $product['specifications'] ?? [];
 
   <!-- STICKY ACTION BAR (VISIBLE ON MOBILE ONLY) -->
   <div class="sticky-actions reveal">
-    <a href="cart_action.php?id=<?php echo $product['id']; ?>" class="btn-icon">🛒</a>
-    <a href="buy_now.php?id=<?php echo $product['id']; ?>" class="btn primary">BUY NOW</a>
+    <form action="add_to_cart.php" method="post">
+        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+        <input type="hidden" name="qty" value="1">
+        <button type="submit" class="btn-icon">🛒</button>
+    </form>
+    <form action="buy_now.php" method="post" style="flex: 1;">
+        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+        <button type="submit" class="btn primary" style="width: 100%;">BUY NOW</button>
+    </form>
   </div>
 
   <!-- FOOTER -->
