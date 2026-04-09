@@ -47,6 +47,7 @@ CREATE TABLE `orders` (
   `city` VARCHAR(100) NOT NULL,
   `state` VARCHAR(100) NOT NULL,
   `total_amount` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  `payment_method` VARCHAR(50) NOT NULL DEFAULT 'Cash on Delivery',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`order_id`),
   KEY `idx_orders_user` (`user_id`),

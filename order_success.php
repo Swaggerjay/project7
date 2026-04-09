@@ -13,10 +13,10 @@ if ($orderId < 1) {
 
 $cartCount = cart_count();
 
-$stmt = db()->prepare('SELECT order_id, full_name, email, phone, address, city, state, total_amount, created_at FROM orders WHERE order_id = ? AND user_id = ? LIMIT 1');
+$stmt = db()->prepare('SELECT order_id, full_name, email, phone, address, city, state, total_amount, payment_method, created_at FROM orders WHERE order_id = ? AND user_id = ? LIMIT 1');
 $stmt->bind_param('ii', $orderId, $_SESSION['user_id']);
 $stmt->execute();
-$stmt->bind_result($o_id, $o_name, $o_email, $o_phone, $o_address, $o_city, $o_state, $o_total, $o_created);
+$stmt->bind_result($o_id, $o_name, $o_email, $o_phone, $o_address, $o_city, $o_state, $o_total, $o_pay, $o_created);
 $orderFound = $stmt->fetch();
 $stmt->close();
 
@@ -34,6 +34,7 @@ $order = [
     'city' => $o_city,
     'state' => $o_state,
     'total_amount' => $o_total,
+    'payment_method' => $o_pay,
     'created_at' => $o_created,
 ];
 
@@ -91,6 +92,7 @@ $itemsStmt->close();
         <p>Order ID: #<?php echo $order['order_id']; ?></p>
         <p>Placed On: <?php echo htmlspecialchars($order['created_at']); ?></p>
         <p>Total: ₹<?php echo number_format($order['total_amount']); ?></p>
+        <p>Payment: <?php echo htmlspecialchars($order['payment_method']); ?></p>
       </div>
 
       <div class="card">

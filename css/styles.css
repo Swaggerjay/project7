@@ -664,6 +664,63 @@ button {
   resize: vertical;
 }
 
+/* Payment Method Styles */
+.payment-methods {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.payment-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: #fbf9f6;
+  border: 1px solid rgba(90, 69, 52, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.payment-option:hover {
+  background: #f3ede2;
+  border-color: var(--gold);
+}
+
+.payment-option input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+.payment-option .option-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-option .option-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.payment-option .option-desc {
+  font-size: 0.85rem;
+  color: #7a6653;
+}
+
+.payment-option input[type="radio"]:checked + .option-info .option-title {
+  color: var(--gold);
+}
+
+.payment-option.selected {
+  border-color: var(--gold);
+  background: #fefaf3;
+  box-shadow: 0 4px 12px rgba(201, 163, 106, 0.1);
+}
+
 .error-msg {
   color: #b0462d;
   font-size: 0.85rem;

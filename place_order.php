@@ -17,6 +17,7 @@ $phone = trim($_POST['phone'] ?? '');
 $address = trim($_POST['address'] ?? '');
 $city = trim($_POST['city'] ?? '');
 $state = trim($_POST['state'] ?? '');
+$payment_method = trim($_POST['payment_method'] ?? 'Cash on Delivery');
 $status = 'Pending';
 
 if ($full_name === '' || $email === '' || $phone === '' || $address === '' || $city === '' || $state === '') {
@@ -38,9 +39,9 @@ $conn = db();
 $conn->begin_transaction();
 
 try {
-    $orderStmt = $conn->prepare('INSERT INTO orders (user_id, full_name, email, phone, address, city, state, status, total_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $orderStmt = $conn->prepare('INSERT INTO orders (user_id, full_name, email, phone, address, city, state, status, total_amount, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     $orderStmt->bind_param(
-        'isssssssd',
+        'isssssssds',
         $_SESSION['user_id'],
         $full_name,
         $email,
@@ -49,17 +50,26 @@ try {
         $city,
         $state,
         $status,
-        $total
+        $total,
+        $payment_method
     );
     $orderStmt->execute();
     $orderId = $conn->insert_id;
     $orderStmt->close();
 
     $itemStmt = $conn->prepare('INSERT INTO order_items (order_id, product_id, product_name, product_price, quantity, line_total) VALUES (?, ?, ?, ?, ?, ?)');
+    $itemsForEmail = [];
     foreach ($lines as $line) {
         $product = $line['product'];
         $qty = $line['qty'];
         $lineTotal = $line['line_total'];
+        
+        $itemsForEmail[] = [
+            'product_name' => $product['name'],
+            'quantity' => $qty,
+            'line_total' => $lineTotal
+        ];
+
         $itemStmt->bind_param(
             'iisdid',
             $orderId,
@@ -74,6 +84,12 @@ try {
     $itemStmt->close();
 
     $conn->commit();
+
+    // Trigger Automated Email
+    require_once __DIR__ . '/email_helper.php';
+    $shippingAddress = "{$address}, {$city}, {$state}";
+    sendOrderConfirmationEmail($orderId, $email, $full_name, $total, $itemsForEmail, $shippingAddress);
+
 } catch (Throwable $e) {
     $conn->rollback();
     error_log('Order insert failed: ' . $e->getMessage());

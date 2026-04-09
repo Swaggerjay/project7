@@ -81,7 +81,37 @@ $stmt->close();
               <input type="text" name="state" required />
             </div>
           </div>
-          <button class="btn primary" type="submit" style="margin-top:16px;">Place Order</button>
+
+          <div style="margin-top:24px;">
+            <h3 style="margin-bottom:12px;">Payment Method</h3>
+            <div class="payment-methods">
+              <label class="payment-option selected">
+                <input type="radio" name="payment_method" value="Cash on Delivery" checked required />
+                <div class="option-info">
+                  <span class="option-title">Cash on Delivery</span>
+                  <span class="option-desc">Pay with cash upon delivery of your items.</span>
+                </div>
+              </label>
+
+              <label class="payment-option">
+                <input type="radio" name="payment_method" value="UPI / QR Code" required />
+                <div class="option-info">
+                  <span class="option-title">UPI / QR Code</span>
+                  <span class="option-desc">Pay using Google Pay, PhonePe, or any UPI app.</span>
+                </div>
+              </label>
+
+              <label class="payment-option">
+                <input type="radio" name="payment_method" value="Credit / Debit Card" required />
+                <div class="option-info">
+                  <span class="option-title">Credit / Debit Card</span>
+                  <span class="option-desc">Secure payment via all major cards.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn primary" type="submit" style="margin-top:24px; width: 100%;">Place Order</button>
         </form>
       </div>
 
@@ -97,5 +127,13 @@ $stmt->close();
 </main>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>
+<script>
+  document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+      e.target.closest('.payment-option').classList.add('selected');
+    });
+  });
+</script>
 </body>
 </html>
