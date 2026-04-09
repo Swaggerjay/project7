@@ -1,5 +1,6 @@
 <?php
 // includes/footer.php
+$BASE = '/phpcourse/project7';
 ?>
 <footer class="site-footer">
   <div class="container footer-grid">
@@ -19,16 +20,16 @@
     
     <div>
       <h4 style="margin-bottom: 12px; color: var(--gold);">Quick Links</h4>
-      <a href="products.php">Shop Products</a>
-      <a href="about.php">About Studio</a>
-      <a href="contact.php">Contact Us</a>
+      <a href="<?php echo $BASE; ?>/pages/products.php">Shop Products</a>
+      <a href="<?php echo $BASE; ?>/pages/about.php">About Studio</a>
+      <a href="<?php echo $BASE; ?>/pages/contact.php">Contact Us</a>
     </div>
     
     <div>
       <h4 style="margin-bottom: 12px; color: var(--gold);">Legal</h4>
       <a href="#">Privacy Policy</a>
       <a href="#">Terms of Service</a>
-      <a href="#">Returns & Exchanges</a>
+      <a href="#">Returns &amp; Exchanges</a>
     </div>
     
     <div>
@@ -43,4 +44,4 @@
   <p class="footer-bottom">© <?php echo date('Y'); ?> Tiksha Furnishing</p>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="/phpcourse/project7/js/main.js"></script>

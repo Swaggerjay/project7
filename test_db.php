@@ -1,5 +1,5 @@
 <?php
-require 'db_connect.php';
+require 'config/db_connect.php';
 try {
     $res = db()->query("SHOW TABLES LIKE 'contact_messages'");
     if ($res->num_rows > 0) {

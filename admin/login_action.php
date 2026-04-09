@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../db_connect.php';
+require_once __DIR__ . '/../config/db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: login.php');
