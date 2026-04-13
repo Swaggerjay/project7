@@ -4,6 +4,7 @@ require_once __DIR__ . '/../config/db_connect.php';
 
 function products_all(): array
 {
+    // static product data
     $fallback = [
         1 => ['id' => 1, 'name' => 'Pvory Sheer Weave', 'price' => 3200, 'image' => '/phpcourse/project7/images/real-2.jpg'],
         2 => ['id' => 2, 'name' => 'Mocha Blackout', 'price' => 5600, 'image' => '/phpcourse/project7/images/real-3.jpg'],
