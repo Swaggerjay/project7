@@ -1497,3 +1497,195 @@ button {
     padding: 30px;
   }
 }
+
+/* --- PROFESSIONAL UPGRADE CSS --- */
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+.animated-toast {
+  background: var(--espresso);
+  color: var(--white);
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.animated-toast.hiding {
+  animation: fadeOutDown 0.4s forwards;
+}
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOutDown {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(20px); }
+}
+
+/* Wishlist Button */
+.wishlist-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: var(--white);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  color: #ccc;
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: 5;
+}
+.wishlist-btn:hover {
+  transform: scale(1.1);
+}
+.wishlist-btn.active {
+  color: #ff4757;
+}
+.product-card {
+  position: relative;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+.page-link {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--white);
+  border: 1px solid var(--gold);
+  color: var(--brown);
+  font-weight: 600;
+  transition: var(--transition);
+}
+.page-link.active, .page-link:hover {
+  background: var(--gold);
+  color: var(--white);
+}
+
+/* Search Bar in Header */
+.header-search {
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  border: 1px solid rgba(90, 69, 52, 0.2);
+  border-radius: 999px;
+  padding: 4px 14px;
+}
+.header-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 6px;
+  color: var(--brown);
+  width: 150px;
+}
+.header-search button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--brown);
+}
+
+/* Image Gallery Details */
+.gallery-thumbs {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  overflow-x: auto;
+}
+.gallery-thumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  opacity: 0.6;
+  transition: var(--transition);
+}
+.gallery-thumb.active, .gallery-thumb:hover {
+  opacity: 1;
+  border-color: var(--gold);
+}
+
+/* Reviews */
+.review-item {
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding: 16px 0;
+}
+.star-rating {
+  color: #ffb142;
+  letter-spacing: 2px;
+}
+
+/* Order Tracker */
+.order-tracker {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  position: relative;
+}
+.order-tracker::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 30px;
+  right: 30px;
+  height: 2px;
+  background: #e0e0e0;
+  z-index: 1;
+}
+.tracker-step {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  flex: 1;
+}
+.step-dot {
+  width: 32px;
+  height: 32px;
+  background: #e0e0e0;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-weight: bold;
+  transition: var(--transition);
+}
+.tracker-step.active .step-dot {
+  background: var(--gold);
+  box-shadow: 0 0 0 5px rgba(201, 163, 106, 0.2);
+}
+.tracker-step.active ~ .tracker-step .step-dot {
+  background: #e0e0e0;
+}
+.tracker-step.completed .step-dot {
+  background: #27ae60;
+}

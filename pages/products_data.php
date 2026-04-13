@@ -19,9 +19,9 @@ function products_all(): array
     ];
 
     try {
-        $stmt = db()->prepare('SELECT product_id, name, price, image_path, category, description, specifications FROM products ORDER BY product_id ASC');
+        $stmt = db()->prepare('SELECT product_id, name, price, image_path, category, description, specifications, gallery_images FROM products ORDER BY product_id ASC');
         $stmt->execute();
-        $stmt->bind_result($id, $name, $price, $imagePath, $category, $description, $specifications);
+        $stmt->bind_result($id, $name, $price, $imagePath, $category, $description, $specifications, $gallery_images);
         $products = [];
         $basePath = '/phpcourse/project7/';
         while ($stmt->fetch()) {
@@ -38,6 +38,7 @@ function products_all(): array
                 'category'       => $category,
                 'description'    => $description,
                 'specifications' => json_decode($specifications, true) ?: [],
+                'gallery_images' => json_decode($gallery_images, true) ?: [],
             ];
         }
         $stmt->close();

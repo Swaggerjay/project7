@@ -112,6 +112,7 @@ if (!$found) {
             </div>
 
             <div class="d-flex gap-3 justify-content-center border-top pt-4">
+                <a href="orders.php" class="btn btn-outline-dark px-4">My Orders</a>
                 <a href="edit_profile.php" class="btn btn-outline-primary px-4">Edit Profile</a>
                 <a href="change_password.php" class="btn btn-outline-secondary px-4">Change Password</a>
             </div>

@@ -17,77 +17,42 @@ while ($stmt->fetch()) {
     ];
 }
 $stmt->close();
+$pageTitle = 'Registered Users';
+require __DIR__ . '/includes/admin_header.php';
 ?>
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Users | Admin</title>
-  <link rel="stylesheet" href="../css/styles.css" />
-</head>
-<body>
 
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="index.php">
-      <span class="brand-mark">TF</span>
-      <span class="brand-text"><strong>Admin Panel</strong></span>
-    </a>
-    <nav class="site-nav">
-      <a href="index.php">Dashboard</a>
-      <a href="orders.php">Orders</a>
-      <a href="products.php">Products</a>
-      <a href="users.php" class="active">Users</a>
-      <a href="messages.php">Messages</a>
-    </nav>
-    <div class="user-nav">
-      <span>Hi, <?php echo htmlspecialchars($adminName ?? 'Admin'); ?></span>
-      <a href="logout.php">Logout</a>
-    </div>
-  </div>
-</header>
+<div class="admin-table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Joined</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($users as $user): ?>
+                <tr>
+                    <td><strong>#<?php echo (int) $user['user_id']; ?></strong></td>
+                    <td><?php echo htmlspecialchars($user['full_name']); ?></td>
+                    <td><?php echo htmlspecialchars($user['email']); ?></td>
+                    <td><?php echo htmlspecialchars($user['phone']); ?></td>
+                    <td><?php echo htmlspecialchars($user['created_at']); ?></td>
+                    <td style="display:flex; gap: 10px;">
+                        <a class="btn ghost" href="user_form.php?user_id=<?php echo (int) $user['user_id']; ?>" style="padding: 6px 12px; font-size: 0.85rem;">Edit</a>
+                        <form action="user_action.php" method="post" style="display:inline-flex;" onsubmit="return confirm('Delete this user? All their orders will also be removed.')">
+                            <input type="hidden" name="user_id" value="<?php echo (int) $user['user_id']; ?>" />
+                            <input type="hidden" name="action" value="delete" />
+                            <button class="btn ghost" type="submit" style="padding: 6px 12px; font-size: 0.85rem; color: #dc3545; border-color: #dc3545;">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 
-<main>
-  <section class="page-hero">
-    <div class="container">
-      <h1>Users</h1>
-      <p>Registered customers.</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="cart-table">
-        <div class="cart-row cart-head">
-          <span>ID</span>
-          <span>Name</span>
-          <span>Email</span>
-          <span>Phone</span>
-          <span>Joined</span>
-          <span>Action</span>
-        </div>
-        <?php foreach ($users as $user): ?>
-          <div class="cart-row">
-            <span><?php echo (int) $user['user_id']; ?></span>
-            <span><?php echo htmlspecialchars($user['full_name']); ?></span>
-            <span><?php echo htmlspecialchars($user['email']); ?></span>
-            <span><?php echo htmlspecialchars($user['phone']); ?></span>
-            <span><?php echo htmlspecialchars($user['created_at']); ?></span>
-            <span>
-              <a class="btn ghost" href="user_form.php?user_id=<?php echo (int) $user['user_id']; ?>">Edit</a>
-              <form action="user_action.php" method="post" style="display:inline-flex;">
-                <input type="hidden" name="user_id" value="<?php echo (int) $user['user_id']; ?>" />
-                <input type="hidden" name="action" value="delete" />
-                <button class="btn ghost" type="submit" onclick="return confirm('Delete this user? All their orders will also be removed.')">Delete</button>
-              </form>
-            </span>
-          </div>
-        <?php endforeach; ?>
-      </div>
-    </div>
-  </section>
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/includes/admin_footer.php'; ?>

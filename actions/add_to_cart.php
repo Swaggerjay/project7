@@ -33,11 +33,12 @@ $_SESSION['cart']['items'][$productId] = ($_SESSION['cart']['items'][$productId]
 require_once __DIR__ . '/../core/cart_helpers.php';
 cart_sync_to_db();
 
+$_SESSION['toast'] = "Added to cart successfully!";
+
 // Redirect back to where the user came from, or products.php by default
 $redirect = $_POST['redirect'] ?? $_SERVER['HTTP_REFERER'] ?? '/phpcourse/project7/pages/products.php';
-if (strpos($redirect, 'added=1') === false) {
-    $redirect .= (strpos($redirect, '?') === false ? '?' : '&') . 'added=1';
-}
+// Remove old ?added=1 if it was there in referer
+$redirect = str_replace(['?added=1', '&added=1'], '', $redirect);
 
 header("Location: $redirect");
 exit;

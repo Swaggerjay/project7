@@ -44,4 +44,35 @@ $BASE = '/phpcourse/project7';
   <p class="footer-bottom">© <?php echo date('Y'); ?> Tiksha Furnishing</p>
 </footer>
 
+<!-- Professional Toast Notifications -->
+<div class="toast-container" id="toastContainer"></div>
+
+<?php 
+if (isset($_SESSION['toast'])) {
+    $toastMsg = addslashes($_SESSION['toast']);
+    unset($_SESSION['toast']);
+    echo "<script>
+      document.addEventListener('DOMContentLoaded', () => {
+        showToast('{$toastMsg}');
+      });
+    </script>";
+}
+?>
+
+<script>
+function showToast(message) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'animated-toast';
+  toast.innerHTML = `<span>✓</span> ${message}`;
+  
+  container.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.classList.add('hiding');
+    setTimeout(() => toast.remove(), 400);
+  }, 3000);
+}
+</script>
+
 <script src="/phpcourse/project7/js/main.js"></script>

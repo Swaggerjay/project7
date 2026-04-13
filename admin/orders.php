@@ -21,68 +21,43 @@ while ($stmt->fetch()) {
     ];
 }
 $stmt->close();
+$pageTitle = 'Orders Management';
+require __DIR__ . '/includes/admin_header.php';
 ?>
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Orders | Admin</title>
-  <link rel="stylesheet" href="../css/styles.css" />
-</head>
-<body>
 
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="index.php">
-      <span class="brand-mark">TF</span>
-      <span class="brand-text"><strong>Admin Panel</strong></span>
-    </a>
-    <nav class="site-nav">
-      <a href="index.php">Dashboard</a>
-      <a href="orders.php" class="active">Orders</a>
-      <a href="products.php">Products</a>
-      <a href="users.php">Users</a>
-      <a href="messages.php">Messages</a>
-    </nav>
-    <div class="user-nav">
-      <span>Hi, <?php echo htmlspecialchars($adminName ?? 'Admin'); ?></span>
-      <a href="logout.php">Logout</a>
-    </div>
-  </div>
-</header>
+<div class="admin-table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($orders as $order): ?>
+                <?php 
+                    $statusClass = 'status-pending';
+                    if ($order['status'] === 'Processing') $statusClass = 'status-processing';
+                    if ($order['status'] === 'Shipped') $statusClass = 'status-shipped';
+                    if ($order['status'] === 'Delivered') $statusClass = 'status-delivered';
+                ?>
+                <tr>
+                    <td><strong>#<?php echo (int) $order['order_id']; ?></strong></td>
+                    <td><?php echo htmlspecialchars($order['full_name']); ?></td>
+                    <td><span class="status-badge <?php echo $statusClass; ?>"><?php echo htmlspecialchars($order['status']); ?></span></td>
+                    <td>₹<?php echo number_format($order['total']); ?></td>
+                    <td><?php echo htmlspecialchars($order['created_at']); ?></td>
+                    <td>
+                        <a href="order_view.php?order_id=<?php echo (int) $order['order_id']; ?>" style="color: var(--gold); text-decoration: none; font-weight: 500;">View Details &rarr;</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 
-<main>
-  <section class="page-hero">
-    <div class="container">
-      <h1>Orders</h1>
-      <p>Review and manage customer orders.</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="cart-table">
-        <div class="cart-row cart-head">
-          <span>Order</span>
-          <span>Customer</span>
-          <span>Status</span>
-          <span>Total</span>
-          <span>Date</span>
-        </div>
-        <?php foreach ($orders as $order): ?>
-          <div class="cart-row">
-            <span><a href="order_view.php?order_id=<?php echo (int) $order['order_id']; ?>">#<?php echo (int) $order['order_id']; ?></a></span>
-            <span><?php echo htmlspecialchars($order['full_name']); ?></span>
-            <span><?php echo htmlspecialchars($order['status']); ?></span>
-            <span>₹<?php echo number_format($order['total']); ?></span>
-            <span><?php echo htmlspecialchars($order['created_at']); ?></span>
-          </div>
-        <?php endforeach; ?>
-      </div>
-    </div>
-  </section>
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/includes/admin_footer.php'; ?>

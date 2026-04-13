@@ -36,100 +36,73 @@ while ($itemsStmt->fetch()) {
 }
 $itemsStmt->close();
 
-$statusOptions = ['Pending', 'Confirmed', 'Shipped', 'Delivered', 'Cancelled'];
+$statusOptions = ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+
+$pageTitle = 'Order #' . $o_id;
+require __DIR__ . '/includes/admin_header.php';
 ?>
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Order #<?php echo $o_id; ?> | Admin</title>
-  <link rel="stylesheet" href="../css/styles.css" />
-</head>
-<body>
 
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="index.php">
-      <span class="brand-mark">TF</span>
-      <span class="brand-text"><strong>Admin Panel</strong></span>
-    </a>
-    <nav class="site-nav">
-      <a href="index.php">Dashboard</a>
-      <a href="orders.php" class="active">Orders</a>
-      <a href="products.php">Products</a>
-      <a href="users.php">Users</a>
-      <a href="messages.php">Messages</a>
-    </nav>
-    <div class="user-nav">
-      <span>Hi, <?php echo htmlspecialchars($adminName ?? 'Admin'); ?></span>
-      <a href="logout.php">Logout</a>
-    </div>
-  </div>
-</header>
+<div style="margin-bottom: 20px;"><a href="orders.php" style="color: var(--gold);">&larr; Back to Orders</a></div>
 
-<main>
-  <section class="page-hero">
-    <div class="container">
-      <h1>Order #<?php echo $o_id; ?></h1>
-      <p>Placed on <?php echo htmlspecialchars($o_created); ?></p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container grid cards-2">
-      <div class="card">
-        <h3>Customer</h3>
-        <p><?php echo htmlspecialchars($o_name); ?></p>
-        <p><?php echo htmlspecialchars($o_email); ?></p>
-        <p><?php echo htmlspecialchars($o_phone); ?></p>
-        <p><?php echo htmlspecialchars($o_address); ?></p>
-        <p><?php echo htmlspecialchars($o_city); ?>, <?php echo htmlspecialchars($o_state); ?></p>
-      </div>
-
-      <div class="card">
-        <h3>Order Summary</h3>
-        <?php foreach ($items as $item): ?>
-          <p><?php echo htmlspecialchars($item['product_name']); ?> × <?php echo (int) $item['quantity']; ?> — ₹<?php echo number_format($item['line_total']); ?></p>
-        <?php endforeach; ?>
-        <p class="product-price" style="margin-top:12px;">Total: ₹<?php echo number_format($o_total); ?></p>
-      </div>
+<div class="metrics-grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="card" style="box-shadow: 0 4px 15px rgba(0,0,0,0.03); padding: 25px;">
+        <h3 style="border-bottom: 1px solid #eee; padding-bottom: 10px;">Customer Profile</h3>
+        <p><strong>Name:</strong> <?php echo htmlspecialchars($o_name); ?></p>
+        <p><strong>Email:</strong> <a href="mailto:<?php echo htmlspecialchars($o_email); ?>" style="color: var(--gold);"><?php echo htmlspecialchars($o_email); ?></a></p>
+        <p><strong>Phone:</strong> <?php echo htmlspecialchars($o_phone); ?></p>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+        <p><strong>Delivery Address:</strong><br>
+        <?php echo htmlspecialchars($o_address); ?><br>
+        <?php echo htmlspecialchars($o_city); ?>, <?php echo htmlspecialchars($o_state); ?></p>
     </div>
 
-    <div class="container" style="margin-top:24px;">
-      <div class="card">
-        <h3>Update Status</h3>
+    <div class="card" style="box-shadow: 0 4px 15px rgba(0,0,0,0.03); padding: 25px;">
+        <h3 style="border-bottom: 1px solid #eee; padding-bottom: 10px;">Order Summary</h3>
+        <p style="color: #888;">Placed on <?php echo htmlspecialchars($o_created); ?></p>
+        
+        <div style="margin: 20px 0; max-height: 200px; overflow-y: auto;">
+            <?php foreach ($items as $item): ?>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #eee; padding: 8px 0;">
+                  <span><?php echo htmlspecialchars($item['product_name']); ?> <small style="color: #888;">x <?php echo (int) $item['quantity']; ?></small></span>
+                  <span>₹<?php echo number_format($item['line_total']); ?></span>
+              </div>
+            <?php endforeach; ?>
+        </div>
+        <h2 style="color: var(--espresso); text-align: right;">Total: ₹<?php echo number_format($o_total); ?></h2>
+    </div>
+</div>
+
+<div class="card" style="box-shadow: 0 4px 15px rgba(0,0,0,0.03); padding: 25px; margin-top: 30px;">
+    <h3>Set Live Shipping Status</h3>
+    <p style="font-size: 0.9rem; color: #666;">Updating this will move the visual tracking bar on the customer's profile.</p>
+    
+    <form action="order_action.php" method="post" style="display: flex; align-items: center; gap: 15px; margin-top: 15px; background: #fafbfe; padding: 20px; border-radius: 8px;">
+        <input type="hidden" name="order_id" value="<?php echo (int) $o_id; ?>" />
+        <input type="hidden" name="action" value="save_status" />
+        
+        <select name="status" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 200px; font-weight: bold;">
+            <?php foreach ($statusOptions as $status): ?>
+                <option value="<?php echo $status; ?>" <?php echo $status === $o_status ? 'selected' : ''; ?>>
+                <?php echo $status; ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <button class="btn primary" type="submit">Publish Update</button>
+    </form>
+</div>
+
+<div class="card" style="box-shadow: 0 4px 15px rgba(0,0,0,0.03); padding: 25px; border-left: 4px solid #dc3545; margin-top: 30px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 style="color: #dc3545; margin: 0;">Danger Zone</h3>
+            <p style="margin: 5px 0 0 0; color: #666;">Deleting an order is permanent and cannot be undone.</p>
+        </div>
         <form action="order_action.php" method="post">
-          <input type="hidden" name="order_id" value="<?php echo (int) $o_id; ?>" />
-          <input type="hidden" name="action" value="save_status" />
-          <div class="form-grid">
-            <div class="form-field">
-              <label>Status</label>
-              <select name="status" class="cart-qty" style="width:200px;">
-                <?php foreach ($statusOptions as $status): ?>
-                  <option value="<?php echo $status; ?>" <?php echo $status === $o_status ? 'selected' : ''; ?>>
-                    <?php echo $status; ?>
-                  </option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-          </div>
-          <button class="btn primary" type="submit" style="margin-top:12px;">Save Status</button>
+            <input type="hidden" name="order_id" value="<?php echo (int) $o_id; ?>" />
+            <input type="hidden" name="action" value="delete" />
+            <button class="btn ghost" type="submit" onclick="return confirm('Permanently delete this order?')" style="border-color: #dc3545; color: #dc3545;">Delete Order</button>
         </form>
-      </div>
-
-      <div class="card" style="margin-top:20px; border-top: 1px solid rgba(176, 70, 45, 0.2);">
-        <h3 style="color: #b0462d;">Danger Zone</h3>
-        <p style="font-size: 0.9rem; margin-bottom: 12px;">Deleting an order is permanent and cannot be undone.</p>
-        <form action="order_action.php" method="post">
-          <input type="hidden" name="order_id" value="<?php echo (int) $o_id; ?>" />
-          <input type="hidden" name="action" value="delete" />
-          <button class="btn ghost" type="submit" onclick="return confirm('Permanently delete this order?')" style="border-color: #b0462d; color: #b0462d;">Delete Order</button>
-        </form>
-      </div>
     </div>
-  </section>
-</main>
+</div>
 
-</body>
-</html>
+<?php require __DIR__ . '/includes/admin_footer.php'; ?>
